@@ -2,15 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SphereCommands : MonoBehaviour {
+public class SphereCommands : MonoBehaviour
+{
+    Vector3 originalPos;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+        originalPos = this.transform.localPosition;
+    }
+ 
+   void OnSelect()
+    {
+        if(!this.GetComponent<Rigidbody>())
+        {
+            var rigidbody = this.gameObject.AddComponent<Rigidbody>();
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        }
+    }
+
+    void OnReset()
+    {
+        var rigidbody = this.GetComponent<Rigidbody>();
+        if(rigidbody!=null)
+        {
+            DestroyImmediate(rigidbody);
+        }
+        this.transform.position = originalPos;
+    }
+    void OnDrop()
+    {
+        OnSelect();
+    }
 }
